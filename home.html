@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h2>使用 Fetch 測試不同的連線方法</h2>
+    <button onclick="connectGET()">用 GET Method 連線</button>
+    <button onclick="connectPOST()">用 POST Method 連線</button>
+    <script>
+        async function connectGET(){
+            let res = await fetch("/test", {
+                method: "GET"
+            });
+            let data = await res.json();
+            console.log(data);
+        }
+    </script>
+    <script>
+        async function connectPOST(){
+            let res = await fetch("/test", {
+                method: "POST"
+            });
+            let data = await res.json();
+            console.log(data);
+        }
+    </script>
+</body>
+</html>
