@@ -20,8 +20,9 @@
     </script>
     <script>
         async function connectPOST(){
-            let res = await fetch("/test", {
-                method: "POST"
+            let res = await fetch("/add", {
+                method: "POST",
+                body: JSON.stringify({"n1":5, "n2":3})
             });
             let data = await res.json();
             console.log(data);

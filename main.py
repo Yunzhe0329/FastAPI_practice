@@ -1,7 +1,7 @@
 from typing import Annotated;
-from fastapi import FastAPI
+from fastapi import FastAPI,Body
 from fastapi.responses import FileResponse
-
+import json
 app = FastAPI()
 
 # Method 連線方法 GET, POST, PUT, DELETE，以REST API來看
@@ -14,6 +14,9 @@ def index():
 def testGET():
     return {"data" : 10, "Method":"GET"}
 
-@app.post("/test")
-def testPost():
-    return {"ok":True, "Method":"POST"}
+@app.post("/add")
+def testPost(body=Body(None)):
+    data=json.loads(body)
+    print(data)
+    result = data["n1"]+data["n2"]
+    return {"result":result }
