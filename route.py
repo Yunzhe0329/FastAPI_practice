@@ -1,12 +1,12 @@
 # 幫 input 做資料格式的標註
 from typing import Annotated
 from fastapi import FastAPI, Path, Query
-
+from fastapi.responses import JSONResponse 
 app = FastAPI()
 
 @app.get("/")
 def index():
-    return "Hello FastAPI"
+    return {"Hello FastAPI"}
 
 # Query() — 參數是網址問號後面的查詢字串, "GET /hello?name=Tom"
 @app.get("/hello")
