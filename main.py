@@ -1,22 +1,28 @@
-from typing import Annotated;
-from fastapi import FastAPI,Body
-from fastapi.responses import FileResponse
-import json
+import mysql.connector
+from dotenv import load_dotenv
+import os
+load_dotenv()
+# 建立資料庫連線
+con = mysql.connector.connect(
+    user= os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host = os.getenv("DB_HOST"),
+    database= os.getenv("DB_NAME")
+)
+
+print("connection sucessful!")
+
+from fastapi import FastAPI
+from typing import Annotated
 app = FastAPI()
 
-# Method 連線方法 GET, POST, PUT, DELETE，以REST API來看
-@app.get("/")
-def index():
-    return FileResponse("home.html")
+@app.get("/createMessage")
+def createMessage(author: Annotated[str, None], content:Annotated[str,None]):
+    cursor = con.cursor() # cursor 是 mysql.connector 操作 DB 的 interface
+    # %s 代表我要傳入資料
+    cursor.execute("INSERT INTO message(author, content) VALUES(%s,%s)", [author, content])
+    con.commit()
+    return {"ok":True}
 
-# 處理 GET Mrthod 的路徑 /test
-@app.get("/test")
-def testGET():
-    return {"data" : 10, "Method":"GET"}
-
-@app.post("/add")
-def testPost(body=Body(None)):
-    data=json.loads(body)
-    print(data)
-    result = data["n1"]+data["n2"]
-    return {"result":result }
+    
+    
